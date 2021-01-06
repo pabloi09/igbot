@@ -104,7 +104,7 @@ from .bot_like import (
     like_user,
     like_users,
 )
-from .bot_photo import download_photo, download_photos, upload_photo, upload_album
+from .bot_photo import download_photo, download_photos, upload_photo
 from .bot_stats import save_user_stats
 from .bot_story import download_stories, upload_story_photo, watch_users_reels
 from .bot_support import (
@@ -611,8 +611,8 @@ class Bot(object):
     def get_user_info(self, user_id, use_cache=True):
         return get_user_info(self, user_id, use_cache)
 
-    def get_user_followers(self, user_id, nfollows=None):
-        return get_user_followers(self, user_id, nfollows)
+    def get_user_followers(self, user_id, amount, next_max_id, filter_private = False, filter_business = False, filter_verified = False):
+        return get_user_followers(self, user_id, amount, next_max_id, filter_private, filter_business, filter_verified)
 
     def get_user_following(self, user_id, nfollows=None):
         return get_user_following(self, user_id, nfollows)
@@ -785,7 +785,8 @@ class Bot(object):
         return download_photos(self, medias, folder, save_description)
 
     def upload_photo(
-        self, photo, caption=None, upload_id=None, from_video=False, options={}, user_tags=None, is_sidecar=False):
+        self, photo, caption=None, upload_id=None, from_video=False, options={}
+    ):
         """Upload photo to Instagram
         @param photo        Path to photo file (String)
         @param caption      Media description (String)
@@ -798,38 +799,11 @@ class Bot(object):
                             e.g. configure_timeout, rename (Dict)
                             Designed to reduce the number of function
                             arguments! This is the simplest request object.
-        @param user_tags    Tag other users (List)
-                            usertags = [
-                                {"user_id": user_id, "position": [x, y]}
-                            ]
-        @param is_sidecar   An album element (Boolean)
 
         @return             Object with state of uploading to
                             Instagram (or False)
         """
-        return upload_photo(self, photo, caption, upload_id, from_video, options, user_tags, is_sidecar)
-
-    def upload_album(
-        self, photos, caption=None, upload_id=None, from_video=False, options={}, user_tags=None
-    ):
-        """Upload album to Instagram
-        @param photos       List of paths to photo files (List of strings)
-        @param caption      Media description (String)
-        @param upload_id    Unique upload_id (String). When None, then
-                            generate automatically
-        @param from_video   A flag that signals whether the photo is loaded
-                            from the video or by itself
-                            (Boolean, DEPRECATED: not used)
-        @param options      Object with difference options,
-                            e.g. configure_timeout, rename (Dict)
-                            Designed to reduce the number of function
-                            arguments! This is the simplest request object.
-        @param user_tags
-
-        @return             Object with state of uploading to
-                            Instagram (or False)
-        """
-        return upload_album(self, photos, caption, upload_id, from_video, options, user_tags)
+        return upload_photo(self, photo, caption, upload_id, from_video, options)
 
     # video
     def upload_video(self, video, caption="", thumbnail=None, options={}):

@@ -6,6 +6,7 @@ import os
 import pickle
 from datetime import datetime
 
+current_path = os.path.abspath(os.getcwd())
 CHECKPOINT_PATH = "{fname}.checkpoint"
 
 

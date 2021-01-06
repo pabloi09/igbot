@@ -232,9 +232,9 @@ def get_user_info(self, user_id, use_cache=True):
     return self._user_infos[user_id]
 
 
-def get_user_followers(self, user_id, nfollows):
+def get_user_followers(self, user_id, amount, next_max_id, filter_private, filter_business, filter_verified):
     user_id = self.convert_to_user_id(user_id)
-    followers = self.api.get_total_followers(user_id, nfollows)
+    followers = self.api.get_followers_of(user_id, amount, next_max_id, filter_private, filter_business, filter_verified)
     return [str(item["pk"]) for item in followers][::-1] if followers else []
 
 
