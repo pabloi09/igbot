@@ -234,8 +234,8 @@ def get_user_info(self, user_id, use_cache=True):
 
 def get_user_followers(self, user_id, amount, next_max_id, filter_private, filter_business, filter_verified):
     user_id = self.convert_to_user_id(user_id)
-    followers = self.api.get_followers_of(user_id, amount, next_max_id, filter_private, filter_business, filter_verified)
-    return [str(item["pk"]) for item in followers][::-1] if followers else []
+    followers, next_max_id = self.api.get_followers_of(user_id, amount, next_max_id, filter_private, filter_business, filter_verified)
+    return [str(item["pk"]) for item in followers][::-1] if followers else [], next_max_id
 
 
 def get_user_following(self, user_id, nfollows=None):
