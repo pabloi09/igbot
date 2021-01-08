@@ -1479,7 +1479,7 @@ class API(object):
         while True:
             get(user_id, next_max_id)
             last_json = self.last_json
-            next_max_id = last_json.get("next_max_id", "")
+            next_max_id = last_json.get("next_max_id", "finished")
             try:
                 for item in last_json["users"]:
                     if filter_private and item["is_private"]:
@@ -1494,7 +1494,7 @@ class API(object):
                         continue
                     result.append(item)
                 if not last_json["users"] or len(result) >= total:
-                    return result[:total], "finished"
+                    return result[:total], next_max_id
             except Exception as e:
                 print("ERROR: {}".format(e))
                 return result[:total], next_max_id
